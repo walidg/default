@@ -23,28 +23,30 @@ sum_v1(x => x, 3, 7)
 product_v1(x=>x, 1, 5)
 
 
-def operation (reducer : (Int, Int) => Int, init: Int)(from: Int)(to: Int, f: Int => Int) : Int = 
+def operation (f: Int => Int, reducer : (Int, Int) => Int, init: Int)(from: Int, to: Int) : Int = 
     def loop(a:Int, acc:Int):Int=
         if a > to then acc 
         else loop(a+1, reducer(acc, f(a)))
     loop(from, init)
 
 
-def sum = operation((x:Int,y:Int) => x+y, 0)
-def product = operation((x:Int,y:Int) => x*y, 1)
+def sum(f: Int => Int) = operation(f, (x:Int,y:Int) => x+y, 0)
+def product(f: Int => Int) = operation(f, (x:Int,y:Int) => x*y, 1)
 
-////// Sum frm 3 to 8 of identities
-sum(3)(8, x=>x)
+////// Sum from 3 to 8 of identities
+sum(x=>x)(3, 8)
 
 ////// Product from 5 to 9 of identities
-product(5)(9, x=>x)
+product(x=>x)(5, 9)
 
-def factorial = product(1)
-def triangular = sum(1)
+def factorial(n : Int) = product(x=>x)(1, n)
+def triangular(n : Int) = sum(x=>x)(1, n)
 
 //////// 5 factorial
-factorial(5, x=>x)
+factorial(5)
 
 //////// Triangular number for 9
-triangular(9, x=>x)
+triangular(9)
+
+sum(triangular)(2, 5)
 
