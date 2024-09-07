@@ -18,11 +18,16 @@ class Rational(x : Int, y : Int) :
     override def toString = s"$numer/$denom"
 end Rational
 
+extension(s:Rational)
+    def min(r:Rational): Rational = if s.less(r) then s else r
+    def abs : Rational = Rational(s.numer.abs, s.denom)
+
+
 Rational(2)
 
 val r = Rational(1, 5).add(Rational(2, 7)).sub(Rational(19, 35))
 assert(r.numer == -2 , "result numer must be -2")
 
+
+assert(Rational(-5, 2).abs.numer == 5)
 Rational(1, -2)
-
-
