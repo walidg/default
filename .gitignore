@@ -1,7 +1,10 @@
 .bloop
 .metals
-project
-target
+**/project
+**/target
 .vscode
-.bsp
+**/.bsp
 scala/assignments/
+**/*.class
+**/*.tasty
+**/.scala-build/
