@@ -4,7 +4,10 @@ abstract class Intset :
     def union (other : Intset) : Intset
 
 object Intset :
-    def singleton(x : Int) : Intset = Empty.include(x)
+    def apply() : Intset = Empty
+    def apply(x : Int) : Intset = apply().include(x)
+    def apply(x : Int, y : Int) : Intset = apply(x).include(y)
+    def apply(x : Int, y : Int, z : Int) : Intset = apply(x,y).include(z)
 
 object Empty extends Intset :
     def contains(x: Int): Boolean = false
@@ -26,7 +29,11 @@ class NonEmpty(root : Int, left : Intset, right : Intset) extends Intset :
     
 object Main :
   @main def helloworld = 
-    println(Intset.singleton(2).include(5))
-    println(Intset.singleton(2).union(Intset.singleton(5)))
+    println(Intset(2).include(5))
+    println(Intset(2).union(Intset(5)))
+    val is = Intset(5, 6)
+    val xs = Intset(1,9,17)
+    assert (is.contains(5) && is.contains(6))
+    assert (xs.contains(1) && xs.contains(9) && xs.contains(17))
 
 
