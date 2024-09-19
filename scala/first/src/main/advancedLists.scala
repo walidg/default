@@ -4,7 +4,16 @@ package my.packa
 extension [T] (e : List[T]) 
     def removeAt(n : Int) : List[T] = e match
         case Nil => Nil
-        case x :: xs => if n == 0 then xs else x :: xs.removeAt(n-1) 
+        case x :: xs => if n == 0 then xs else x :: xs.removeAt(n-1)
+
+    def pack(f : (T, T) => Boolean) : List[List[T]] = e match
+        case Nil => Nil
+        case x :: xs => 
+            val (l, r) = e.span(f(x, _))
+            List(l) ++ r.pack(f)
+    
+    def encode(f : (T,T) => Boolean) : List[(T, Int)] = e.pack(f).map(x => (x.head, x.length))
+  
 
     def insertionSort : List[T] = e match
         case Nil => Nil
@@ -76,3 +85,9 @@ def flatten(xs : List[Any]) : List[Any] = xs match
 
     assert(List("berries", "apples", "pears", "oranges", "peaches").mergeSort == 
         List("apples", "berries", "oranges", "peaches", "pears"))
+
+    assert(List(1, 1, 1, 5, 6, 6, 1, 3, 3, 6, 5, 5).pack(_ == _) ==
+        List(List(1,1,1), List(5), List(6,6) , List(1), List(3,3), List(6), List(5,5)))
+
+    assert(List(1, 1, 1, 5, 6, 6, 1, 3, 3, 6, 5, 5).encode(_ == _) ==
+        List((1,3), (5,1), (6,2) , (1,1), (3,2), (6,1), (5,2)))
