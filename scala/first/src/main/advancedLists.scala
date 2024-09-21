@@ -31,6 +31,14 @@ extension [T] (e : List[T])
             val (left, right) = e.splitAt(n) 
             merge(left.mergeSort, right.mergeSort)
 
+    def reverse1 : List[T] = e match
+        case Nil => Nil
+        case x :: xs => xs.reverse1 ++ List(x)
+
+    def reverse2 : List[T] = e.foldLeft(Nil)((acc, x) => x :: acc)
+    
+    
+
 private def insert[T]( i : T, xs : List[T]) : List[T] = xs match
     case Nil => List(i)
     case y :: ys => if lessThan(i, y) then i :: xs else y :: insert(i, ys)
@@ -91,3 +99,7 @@ def flatten(xs : List[Any]) : List[Any] = xs match
 
     assert(List(1, 1, 1, 5, 6, 6, 1, 3, 3, 6, 5, 5).encode(_ == _) ==
         List((1,3), (5,1), (6,2) , (1,1), (3,2), (6,1), (5,2)))
+
+    assert(List(5, 4, 7, 2, 3, 9, 6, 1, 5).reverse1 == List(5, 1, 6, 9, 3, 2, 7, 4, 5))
+
+    assert(List(5, 4, 7, 2, 3, 9, 6, 1, 5).reverse2 == List(5, 1, 6, 9, 3, 2, 7, 4, 5))
